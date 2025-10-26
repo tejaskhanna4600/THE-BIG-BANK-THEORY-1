@@ -1,0 +1,96 @@
+ARTHVIDYA MONOPOLY - MULTIPLAYER VERSION
+========================================
+
+✅ SYSTEM CREATED SUCCESSFULLY!
+
+📁 Location: streamlit_multiplayer/ folder
+
+🚀 HOW TO START:
+
+1. Open terminal/command prompt
+2. Navigate to the folder:
+   cd "streamlit_multiplayer"
+3. Install Streamlit:
+   pip install streamlit
+4. Run the app:
+   streamlit run streamlit_app.py
+
+The app will open in your browser at: http://localhost:8501
+
+
+🔐 LOGIN CREDENTIALS:
+
+Admin Panel:
+- Role: ADMIN
+- Password: admin123
+
+Team 1: Password = team1
+Team 2: Password = team2  
+Team 3: Password = team3
+Team 4: Password = team4
+Team 5: Password = team5
+
+
+🎮 HOW IT WORKS:
+
+1. ADMIN logs in first and starts the game
+2. All TEAMS log in with their passwords
+3. Teams request actions (roll dice, buy property, etc.)
+4. Admin sees pending requests and approves/rejects them
+5. Admin screen-shares the game with participants
+6. Game state is saved automatically
+
+
+📋 WHAT'S INCLUDED:
+
+✅ streamlit_app.py - Main entry point with authentication
+✅ game_state.py - Shared game state manager
+✅ team_view.py - Interface for each team
+✅ admin_view.py - Admin control panel
+✅ config.py - Passwords and configuration
+✅ requirements.txt - Dependencies
+✅ README.md - Full documentation
+✅ INSTRUCTIONS.md - Detailed usage guide
+
+
+🌐 TO DEPLOY TO STREAMLIT CLOUD:
+
+1. Create GitHub repository
+2. Upload all files from streamlit_multiplayer/ folder
+3. Go to share.streamlit.io
+4. Sign in with GitHub
+5. New app → Select your repo
+6. Main file: streamlit_app.py
+7. Deploy and share the URL!
+
+
+💡 FEATURES:
+
+✅ 5 team control panels + 1 admin panel
+✅ Password-protected access
+✅ Action approval system
+✅ Chance cards with admin approval
+✅ Mystery wheel effects
+✅ Property buying/selling
+✅ Real-time game state
+✅ Manual admin controls
+✅ Persistent save system
+
+
+📖 FOR DETAILED INSTRUCTIONS:
+
+See INSTRUCTIONS.md for complete guide
+See README.md for full documentation
+
+
+🎯 NEXT STEPS:
+
+1. Test the system locally
+2. Customize passwords in config.py if needed
+3. Deploy to Streamlit Cloud
+4. Share URL with participants
+5. Practice with admin panel before event
+
+
+Made for Arthvidya Marketing Event 🎲
+
