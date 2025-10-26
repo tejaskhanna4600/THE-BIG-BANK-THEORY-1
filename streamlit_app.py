@@ -79,17 +79,6 @@ def main():
     game_state = st.session_state.game_state
     user_type = st.session_state.user_type
     
-    # Add auto-refresh for Streamlit Cloud compatibility
-    import time
-    if 'last_refresh' not in st.session_state:
-        st.session_state.last_refresh = time.time()
-    
-    # Auto-refresh every 10 seconds
-    current_time = time.time()
-    if current_time - st.session_state.last_refresh > 10:
-        st.session_state.last_refresh = current_time
-        st.rerun()
-    
     # Route to appropriate view
     if user_type == "ADMIN":
         render_admin_view(game_state)
@@ -98,9 +87,17 @@ def main():
     else:
         st.error("Invalid user type")
     
-    # Sidebar with logout only
+    # Sidebar with manual refresh and logout
     with st.sidebar:
         st.markdown("### ⚙️ Controls")
+        
+        # Manual refresh button
+        if st.button("🔄 Check for Updates", use_container_width=True):
+            st.session_state.game_state.load()
+            st.session_state.game_state.load_actions_queue()
+            st.success("✅ Game state updated!")
+        
+        st.markdown("---")
         
         if st.button("🚪 Logout", use_container_width=True):
             for key in list(st.session_state.keys()):
@@ -114,10 +111,10 @@ def main():
         st.markdown(f"**Dice Roll:** {game_state.current_dice_roll if game_state.current_dice_roll > 0 else 'None'}")
         st.markdown(f"**Pending Actions:** {len(game_state.get_pending_actions())}")
         
-        # Real-time update info
+        # Manual update instructions
         st.markdown("---")
-        st.info("💡 **Real-time updates:** Game state updates automatically")
-        st.markdown("🔄 **No refresh needed:** Changes appear instantly")
+        st.info("💡 **Click 'Check for Updates' to see latest changes**")
+        st.markdown("🔄 **No auto-refresh:** Manual control only")
 
 if __name__ == "__main__":
     main()

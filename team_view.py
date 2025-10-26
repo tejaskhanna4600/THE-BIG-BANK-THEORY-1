@@ -129,10 +129,22 @@ def render_team_view(game_state: GameState, team_id: str):
         st.markdown("---")
         st.markdown(f"### 🎲 Dice Roll: {game_state.current_dice_roll}")
     
-    # Real-time update info
+    # Manual update section
     st.markdown("---")
-    st.info("💡 **Real-time updates:** Your actions are sent to admin instantly")
-    st.markdown("🔄 **No refresh needed:** Admin will see your requests immediately")
+    st.markdown("### 🔄 Check for Updates")
+    
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("🔄 Check Updates", key=f"check_updates_{team_id}", use_container_width=True):
+            st.success("✅ Checking for updates...")
+    
+    with col2:
+        from datetime import datetime
+        current_time = datetime.now().strftime("%H:%M:%S")
+        st.markdown(f"**Last check:** {current_time}")
+    
+    st.info("💡 **Click 'Check Updates' to see latest game changes**")
+    st.markdown("🔄 **Your actions:** Sent to admin instantly")
 
 def handle_chance_button(game_state: GameState, team_id: str):
     """Handle chance card display"""
