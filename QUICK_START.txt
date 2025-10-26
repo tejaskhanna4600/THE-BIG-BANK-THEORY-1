@@ -1,5 +1,5 @@
-ARTHVIDYA MONOPOLY - MULTIPLAYER VERSION
-========================================
+THE BIG BANK THEORY - MULTIPLAYER VERSION
+=========================================
 
 ✅ SYSTEM CREATED SUCCESSFULLY!
 
@@ -31,7 +31,7 @@ Team 4: Password = team4
 Team 5: Password = team5
 
 
-🎮 HOW IT WORKS:
+🏦 HOW IT WORKS:
 
 1. ADMIN logs in first and starts the game
 2. All TEAMS log in with their passwords
@@ -92,5 +92,5 @@ See README.md for full documentation
 5. Practice with admin panel before event
 
 
-Made for Arthvidya Marketing Event 🎲
+Made for The Big Bank Theory Event 🏦
 

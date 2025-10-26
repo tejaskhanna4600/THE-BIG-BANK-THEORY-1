@@ -1,8 +1,8 @@
-# Arthvidya Monopoly - Multiplayer Version
+# The Big Bank Theory - Multiplayer Version
 
 A multiplayer Streamlit-based Monopoly game where participants join via shared links.
 
-## 🎮 How It Works
+## 🏦 How It Works
 
 1. **Share the Link**: All participants (teams + admin) use the same Streamlit app URL
 2. **Login**: Each person logs in with their role (Admin, Team 1-5) and password

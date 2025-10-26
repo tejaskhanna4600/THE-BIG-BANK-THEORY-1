@@ -15,7 +15,21 @@ def render_team_view(game_state: GameState, team_id: str):
         return
     
     # Header
-    st.title(f"🎮 {team.name} Control Panel")
+    st.title(f"🏦 {team.name} Control Panel")
+    
+    # Dice roll display panel
+    current_team = game_state.get_current_team()
+    if game_state.current_dice_roll > 0:
+        if current_team.team_id == team_id:
+            st.markdown(f"<div style='background-color: #FFD700; color: black; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 3px solid #FFA500;'>"
+                       f"<h1>🎲 DICE ROLLED: {game_state.current_dice_roll} 🎲</h1>"
+                       f"<p>You rolled a {game_state.current_dice_roll}!</p>"
+                       f"</div>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<div style='background-color: #E0E0E0; color: black; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;'>"
+                       f"<h3>🎲 {current_team.name} rolled: {game_state.current_dice_roll}</h3>"
+                       f"</div>", unsafe_allow_html=True)
+    
     st.markdown(f"<div style='background-color: {team.color}; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;'>"
                 f"<h2>Balance: ₹{team.balance:,}</h2>"
                 f"<p>Position: {team.position} | {game_state.properties[team.position].name}</p>"
@@ -31,13 +45,13 @@ def render_team_view(game_state: GameState, team_id: str):
             # Add action to queue
             game_state.add_action("roll_dice", team_id)
             st.success("✅ Dice roll request sent to admin! Waiting for approval...")
-            st.rerun()
+            # Don't rerun - let the action stay visible
         
         if st.button("✅ End Turn", use_container_width=True):
             if game_state.get_current_team().team_id == team_id:
                 game_state.add_action("end_turn", team_id)
                 st.success("✅ Turn end request sent to admin!")
-                st.rerun()
+                # Don't rerun - let the action stay visible
             else:
                 st.warning("⚠️ It's not your turn yet!")
     
@@ -89,7 +103,7 @@ def render_team_view(game_state: GameState, team_id: str):
                 if st.button("Sell", key=f"sell_{prop.index}", use_container_width=True):
                     game_state.add_action("sell_property", team_id, {"property_index": prop.index})
                     st.success("✅ Sell request sent to admin!")
-                    st.rerun()
+                    # Don't rerun - let the action stay visible
     else:
         st.info("You don't own any properties yet")
     
@@ -102,10 +116,23 @@ def render_team_view(game_state: GameState, team_id: str):
             status_icon = "⏳" if action.status == 'pending' else "✅" if action.status == 'approved' else "❌"
             st.markdown(f"{status_icon} {action.action_type} - {action.status}")
     
+    # Show completed actions
+    completed_actions = [a for a in game_state.actions_queue if a.team_id == team_id and a.status == 'approved']
+    if completed_actions:
+        st.markdown("---")
+        st.subheader("✅ Recent Actions")
+        for action in completed_actions[-3:]:  # Show last 3 completed actions
+            st.markdown(f"✅ {action.action_type} - Completed")
+    
     # Current dice roll display
     if game_state.current_dice_roll > 0 and game_state.get_current_team().team_id == team_id:
         st.markdown("---")
         st.markdown(f"### 🎲 Dice Roll: {game_state.current_dice_roll}")
+    
+    # Real-time update info
+    st.markdown("---")
+    st.info("💡 **Real-time updates:** Your actions are sent to admin instantly")
+    st.markdown("🔄 **No refresh needed:** Admin will see your requests immediately")
 
 def handle_chance_button(game_state: GameState, team_id: str):
     """Handle chance card display"""

@@ -9,7 +9,7 @@ from config import CHANCE_QUESTIONS, MYSTERY_OPTIONS
 def render_admin_view(game_state: GameState):
     """Render the admin control panel"""
     
-    st.title("🎮 Admin Control Panel")
+    st.title("🏦 Admin Control Panel")
     
     # Game controls
     col1, col2, col3 = st.columns(3)
@@ -18,7 +18,7 @@ def render_admin_view(game_state: GameState):
         if st.button("▶️ Start Game", use_container_width=True, type="primary"):
             game_state.game_started = True
             game_state.save()
-            st.rerun()
+            st.success("Game started!")
         
         if st.button("🔄 Reset Game", use_container_width=True):
             game_state.current_team_idx = 0
@@ -30,12 +30,10 @@ def render_admin_view(game_state: GameState):
             game_state.actions_queue = []
             game_state.save()
             st.success("Game reset!")
-            st.rerun()
     
     with col2:
         if st.button("📊 Show All Teams", use_container_width=True):
             st.session_state['show_all_teams'] = True
-            st.rerun()
     
     with col3:
         if st.button("💾 Save Game State", use_container_width=True):
@@ -75,13 +73,11 @@ def render_admin_view(game_state: GameState):
                         if approved_action:
                             execute_action(game_state, approved_action)
                             st.success("Action approved and executed!")
-                            st.rerun()
                 
                 with col2:
                     if st.button("❌ Reject", key=f"reject_{action.action_id}", use_container_width=True):
                         game_state.reject_action(action.action_id)
                         st.warning("Action rejected!")
-                        st.rerun()
                 
                 with col3:
                     # Show context
@@ -123,7 +119,6 @@ def render_admin_view(game_state: GameState):
                 team.position = new_pos
                 game_state.save()
                 st.success(f"Moved to position {new_pos}")
-                st.rerun()
         
         with col2:
             st.markdown("**Adjust Balance**")
@@ -134,7 +129,6 @@ def render_admin_view(game_state: GameState):
                 team.balance += amount
                 game_state.save()
                 st.success(f"Balance adjusted by ₹{amount:,}")
-                st.rerun()
 
 def execute_action(game_state: GameState, action):
     """Execute an approved action"""

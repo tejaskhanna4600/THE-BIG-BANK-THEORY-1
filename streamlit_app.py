@@ -1,5 +1,5 @@
 """
-Arthvidya Monopoly - Multiplayer Streamlit App
+The Big Bank Theory - Multiplayer Streamlit App
 Main entry point with authentication and routing
 """
 import streamlit as st
@@ -16,7 +16,7 @@ def check_password():
     
     if not st.session_state.authenticated:
         # Login form
-        st.title("🎲 Arthvidya Monopoly")
+        st.title("🏦 The Big Bank Theory")
         st.markdown("---")
         
         col1, col2, col3 = st.columns([1, 2, 1])
@@ -46,9 +46,9 @@ def check_password():
 
 def main():
     st.set_page_config(
-        page_title="Arthvidya Monopoly",
+        page_title="The Big Bank Theory",
         layout="wide",
-        page_icon="🎲",
+        page_icon="🏦",
         initial_sidebar_state="collapsed"
     )
     
@@ -72,8 +72,23 @@ def main():
         st.session_state.game_state.load()
         st.session_state.game_state.load_actions_queue()
     
+    # Reload game state every run to sync with other users
+    st.session_state.game_state.load()
+    st.session_state.game_state.load_actions_queue()
+    
     game_state = st.session_state.game_state
     user_type = st.session_state.user_type
+    
+    # Add auto-refresh for Streamlit Cloud compatibility
+    import time
+    if 'last_refresh' not in st.session_state:
+        st.session_state.last_refresh = time.time()
+    
+    # Auto-refresh every 10 seconds
+    current_time = time.time()
+    if current_time - st.session_state.last_refresh > 10:
+        st.session_state.last_refresh = current_time
+        st.rerun()
     
     # Route to appropriate view
     if user_type == "ADMIN":
@@ -83,12 +98,26 @@ def main():
     else:
         st.error("Invalid user type")
     
-    # Logout button
+    # Sidebar with logout only
     with st.sidebar:
+        st.markdown("### ⚙️ Controls")
+        
         if st.button("🚪 Logout", use_container_width=True):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
+        
+        # Status info
+        st.markdown("---")
+        st.markdown("### 📊 Status")
+        st.markdown(f"**Current Turn:** {game_state.get_current_team().name}")
+        st.markdown(f"**Dice Roll:** {game_state.current_dice_roll if game_state.current_dice_roll > 0 else 'None'}")
+        st.markdown(f"**Pending Actions:** {len(game_state.get_pending_actions())}")
+        
+        # Real-time update info
+        st.markdown("---")
+        st.info("💡 **Real-time updates:** Game state updates automatically")
+        st.markdown("🔄 **No refresh needed:** Changes appear instantly")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-# Setup and Usage Instructions
+# The Big Bank Theory - Setup and Usage Instructions
 
 ## 🎯 How to Use This System
 
